@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiShoppingBag } from 'react-icons/fi';
 import { BsFillPencilFill } from 'react-icons/bs';
@@ -6,14 +6,30 @@ import User from './User';
 import Button from './ui/Button';
 import { useAuthContext } from '../context/AuthContext';
 import CartStatus from './CartStatus';
+import { login, logout, onUserStateChange } from '../api/firebase';
 
 export default function Navbar() {
-  const { user, login, logout } = useAuthContext();
+  const [ user, setUser ] = useState();
+  //const { user, login, logout } = useAuthContext();
+
+  //useEffect
+  useEffect(() => {
+     onUserStateChange(setUser);
+  }, []);
+
+  const handleLogin = () => {
+    login();
+  }
+
+  const handleLogout = () => {
+    logout();
+  }
+
   return (
     <header className='flex justify-between border-b border-gray-300 p-2'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
         <FiShoppingBag />
-        <h1>Shoppy</h1>
+        <h1>Nael's Shop</h1>
       </Link>
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Products</Link>
@@ -28,8 +44,10 @@ export default function Navbar() {
           </Link>
         )}
         {user && <User user={user} />}
-        {!user && <Button text={'Login'} onClick={login} />}
-        {user && <Button text={'Logout'} onClick={logout} />}
+        {/* {!user && <Button text={'Login'} onClick={login} />} */}
+        {!user && <Button text={'Login'} onClick={handleLogin} />}
+        {/* {user && <Button text={'Logout'} onClick={logout} />} */}
+        {user && <Button text={'Logout'} onClick={handleLogout} />}
       </nav>
     </header>
   );

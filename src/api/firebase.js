@@ -21,6 +21,18 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const database = getDatabase(app);
 
+// login 을 여기에 넣은 이유: navbar 등에서 바로 사용하기 위해
+// navbar 에 넣으면 navbar 가 firebase 에 너무 의존하게 됨
+// firebase 관련 코드는 api/firebase.js 에서 관리하는 게 좋음.
+// export async function login() {
+//   return signInWithPopup(auth, provider)
+//     .then((result) => {
+//       const user = result.user;
+//       console.log('login user: ', user);
+//       return user;
+//     })
+//     .catch(console.error);
+// }
 export function login() {
   signInWithPopup(auth, provider).catch(console.error);
 }
@@ -30,9 +42,14 @@ export function logout() {
 }
 
 export function onUserStateChange(callback) {
+  //console.log('onUserStateChange called, callback:', typeof callback);
   onAuthStateChanged(auth, async (user) => {
-    const updatedUser = user ? await adminUser(user) : null;
-    callback(updatedUser);
+    console.log('auth state changed, user:', user, 'callback:', typeof callback);
+    //const updatedUser = user ? await adminUser(user) : null;
+    //callback(updatedUser);
+    if (typeof callback === 'function') {
+      callback(user);
+    }
   });
 }
 
