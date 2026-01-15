@@ -42,19 +42,19 @@ export function logout() {
 }
 
 export function onUserStateChange(callback) {
-  //console.log('onUserStateChange called, callback:', typeof callback);
   onAuthStateChanged(auth, async (user) => {
-    console.log('auth state changed, user:', user, 'callback:', typeof callback);
-    //const updatedUser = user ? await adminUser(user) : null;
-    //callback(updatedUser);
-    if (typeof callback === 'function') {
-      callback(user);
-    }
+    //1. 사용자가 있는 경우(로그인한 경우)
+    user && adminUser(user);
+    //2. 사용자가 어드민 권한을 가지고 있는지
+    //3. {...user, isAdmin: true/false}
+    const updatedUser = user ? await adminUser(user) : null;
+    console.log('updatedUser: ', updatedUser);
+    callback(updatedUser);
   });
 }
 
 async function adminUser(user) {
-  return get(ref(database, 'admins')) //
+  return get(ref(database, 'admins'))
     .then((snapshot) => {
       if (snapshot.exists()) {
         const admins = snapshot.val();

@@ -1,53 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FiShoppingBag } from 'react-icons/fi';
-import { BsFillPencilFill } from 'react-icons/bs';
-import User from './User';
-import Button from './ui/Button';
-import { useAuthContext } from '../context/AuthContext';
-import CartStatus from './CartStatus';
-import { login, logout, onUserStateChange } from '../api/firebase';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FiShoppingBag } from "react-icons/fi";
+import { BsFillPencilFill } from "react-icons/bs";
+import User from "./User";
+import Button from "./ui/Button";
+import { useAuthContext } from "../context/AuthContext";
+import CartStatus from "./CartStatus";
+import { login, logout, onUserStateChange } from "../api/firebase";
 
 export default function Navbar() {
-  const [ user, setUser ] = useState();
+  const [user, setUser] = useState();
   //const { user, login, logout } = useAuthContext();
 
   //useEffect
   useEffect(() => {
-     onUserStateChange(setUser);
+    onUserStateChange(setUser);
   }, []);
 
-  const handleLogin = () => {
-    login();
-  }
-
-  const handleLogout = () => {
-    logout();
-  }
-
   return (
-    <header className='flex justify-between border-b border-gray-300 p-2'>
-      <Link to='/' className='flex items-center text-4xl text-brand'>
+    <header className="flex justify-between border-b border-gray-300 p-2">
+      <Link to="/" className="flex items-center text-4xl text-brand">
         <FiShoppingBag />
         <h1>Nael's Shop</h1>
       </Link>
-      <nav className='flex items-center gap-4 font-semibold'>
-        <Link to='/products'>Products</Link>
+      <nav className="flex items-center gap-4 font-semibold">
+        <Link to="/products">Products</Link>
         {user && (
-          <Link to='/carts'>
+          <Link to="/carts">
             <CartStatus />
           </Link>
         )}
         {user && user.isAdmin && (
-          <Link to='/products/new' className='text-2xl'>
+          <Link to="/products/new" className="text-2xl">
             <BsFillPencilFill />
           </Link>
         )}
         {user && <User user={user} />}
-        {/* {!user && <Button text={'Login'} onClick={login} />} */}
-        {!user && <Button text={'Login'} onClick={handleLogin} />}
-        {/* {user && <Button text={'Logout'} onClick={logout} />} */}
-        {user && <Button text={'Logout'} onClick={handleLogout} />}
+        {!user && <Button text={"Login"} onClick={login} />}
+        {user && <Button text={"Logout"} onClick={logout} />}
       </nav>
     </header>
   );
