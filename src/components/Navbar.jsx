@@ -9,13 +9,7 @@ import CartStatus from "./CartStatus";
 import { login, logout, onUserStateChange } from "../api/firebase";
 
 export default function Navbar() {
-  const [user, setUser] = useState();
-  //const { user, login, logout } = useAuthContext();
-
-  //useEffect
-  useEffect(() => {
-    onUserStateChange(setUser);
-  }, []);
+  const { user, login, logout } = useAuthContext();
 
   return (
     <header className="flex justify-between border-b border-gray-300 p-2">

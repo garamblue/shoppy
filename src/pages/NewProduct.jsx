@@ -51,55 +51,48 @@ export default function NewProduct() {
         />
       )}
       <form className='flex flex-col px-12' onSubmit={handleSubmit}>
-        <input
-          type='file'
+        <input type='file'
           accept='image/*'
           name='file'
           required
           onChange={handleChange}
         />
-        <input
-          type='text'
+        <input type='text'
           name='title'
           value={product.title ?? ''}
           placeholder='제품명'
           required
           onChange={handleChange}
         />
-        <input
-          type='number'
+        <input type='number'
           name='price'
           value={product.price ?? ''}
           placeholder='가격'
           required
           onChange={handleChange}
         />
-        <input
-          type='text'
+        <input type='text'
           name='category'
           value={product.category ?? ''}
           placeholder='카테고리'
           required
           onChange={handleChange}
         />
-        <input
-          type='text'
+        <input type='text'
           name='description'
           value={product.description ?? ''}
           placeholder='제품 설명'
           required
           onChange={handleChange}
         />
-        <input
-          type='text'
+        <input type='text'
           name='options'
           value={product.options ?? ''}
           placeholder='옵션들(콤마(,)로 구분)'
           required
           onChange={handleChange}
         />
-        <Button
-          text={isUploading ? '업로드중...' : '제품 등록하기'}
+        <Button text={isUploading ? '업로드중...' : '제품 등록하기'}
           disabled={isUploading}
         />
       </form>
